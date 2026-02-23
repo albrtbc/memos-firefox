@@ -29,5 +29,8 @@ jobs:
     uses: ./.github/workflows/build-extension.yml
     with:
       tag_name: ${{ needs.release-please.outputs.tag_name }}
+    secrets:
+      AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+      AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
     permissions:
       contents: write
