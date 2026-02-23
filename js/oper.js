@@ -354,8 +354,11 @@ $(document).on("click",".item-lock",function () {
 
 $('#search').click(function () {
   get_info(function (info) {
-  const pattern = $("textarea[name=text]").val()
-  var filter = "?filter=" + encodeURIComponent(`creator_id == ${info.userid} && content.contains("${pattern}")`);
+  const pattern = $("textarea[name=text]").val().trim()
+  var filterExpr = pattern.startsWith('#')
+    ? `creator_id == ${info.userid} && "${pattern.slice(1)}" in tags`
+    : `creator_id == ${info.userid} && content.contains("${pattern}")`
+  var filter = "?filter=" + encodeURIComponent(filterExpr);
   if (info.status) {
     $("#randomlist").html('').hide()
     var searchDom = ""
