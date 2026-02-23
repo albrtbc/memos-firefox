@@ -1,24 +1,24 @@
 /**
- * 消息提示组件
+ * Message notification component
  *
- * 1.调用
- * 字符串类型参数： $.message('成功');
- * 对象型参数：$.message({});
+ * 1. Usage
+ * String parameter: $.message('Success');
+ * Object parameter: $.message({});
  *
- * 2.参数详解
- *  message:' 操作成功',    //提示信息
- time:'2000',           //显示时间（默认：2s）
- type:'success',        //显示类型，包括4种：success.error,info,warning
- showClose:false,       //显示关闭按钮（默认：否）
- autoClose:true,        //是否自动关闭（默认：是）
+ * 2. Parameters
+ *  message: 'Operation successful',  // notification message
+ *  time: '2000',                     // display duration (default: 2s)
+ *  type: 'success',                  // display type, 4 options: success, error, info, warning
+ *  showClose: false,                 // show close button (default: no)
+ *  autoClose: true,                  // auto-close (default: yes)
  *
- * type:success,error,info,warning
+ * type: success, error, info, warning
  */
 
 $.extend({
     message: function(options) {
         var defaults={
-            message:' 操作成功',
+            message: 'Operation successful',
             time:'2000',
             autoClose: true,
             onClose:function(){}
@@ -30,7 +30,7 @@ $.extend({
         if(typeof options === 'object'){
             defaults=$.extend({},defaults,options);
         }
-        //message模版
+        // message template
         var template='<div class="tip animate bounceIn">\n' +
             '    <p class="tip-info">'+defaults.message+'</p>\n' +
             '</div>';
@@ -39,22 +39,22 @@ $.extend({
         var $message=$(template);
         var timer;
 
-        //移除所有并插入该消息
+        // remove all existing messages and insert new one
         $('.tip').remove();
         $body.append($message);
-        //居中
+        // center
         $message.css({
             'margin-left':'-'+$message.width()/2+'px'
         });
 
 
-        //自动关闭
+        // auto-close
         if (defaults.autoClose){
             timer=setTimeout(function(){
                 closeFn();
             },defaults.time);
         }
-        //关闭
+        // close
         var closeFn = function(){
             $message.addClass('hide');
             $message.remove();

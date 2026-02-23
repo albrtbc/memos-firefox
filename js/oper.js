@@ -40,7 +40,7 @@ function get_info(callback) {
 
 get_info(function (info) {
   if (info.status) {
-    //已经有绑定信息了，折叠
+    // settings already saved, collapse
     $('#blog_info').hide()
   }
   var memoNow = info.memo_lock
@@ -62,18 +62,18 @@ get_info(function (info) {
   $('#hideInput').val(info.hidetag)
   $('#showInput').val(info.showtag)
   if (info.open_action === 'upload_image') {
-    //打开的时候就是上传图片
+    // opened with an image upload action
     uploadImage(info.open_content)
   } else {
     $("textarea[name=text]").val(info.open_content)
   }
-  //从localstorage 里面读取数据
+  // read data from local storage
   setTimeout(get_info, 1)
 })
 
 $("textarea[name=text]").focus()
 
-//监听输入结束，保存未发送内容到本地
+// on blur, save unsent content locally
 $("textarea[name=text]").blur(function () {
   chrome.storage.sync.set(
     { open_action: 'save_text', open_content: $("textarea[name=text]").val() }
@@ -86,10 +86,10 @@ $("textarea[name=text]").on('keydown', function (ev) {
   }
 })
 
-//监听拖拽事件，实现拖拽到窗口上传图片
+// listen for drag events to enable drag-and-drop image upload
 initDrag()
 
-//监听复制粘贴事件，实现粘贴上传图片
+// listen for paste events to enable paste-to-upload image
 document.addEventListener('paste', function (e) {
   let photo = null
   if (e.clipboardData.files[0]) {
@@ -211,7 +211,7 @@ function uploadImageNow(base64String, file) {
               }
             )
           } else {
-            //发送失败 清空open_action（打开时候进行的操作）,同时清空open_content
+            // upload failed, clear open_action and open_content
             chrome.storage.sync.set(
               {
                 open_action: '',
@@ -241,7 +241,7 @@ $('#saveKey').click(function () {
     apiUrl += '/';
   }
   var apiTokens = $('#apiTokens').val()
-  // 设置请求参数
+  // set request parameters
   const settings = {
     async: true,
     crossDomain: true,
@@ -254,7 +254,7 @@ $('#saveKey').click(function () {
 
   $.ajax(settings).done(function (response) {
     if (response && response.id) {
-      // 如果响应包含用户 ID，存储 apiUrl 和 apiTokens
+      // if response contains user ID, store apiUrl and apiTokens
       chrome.storage.sync.set(
         {
           apiUrl: apiUrl,
@@ -269,13 +269,13 @@ $('#saveKey').click(function () {
         }
       );
     } else {
-      // 如果响应不包含用户 ID，显示错误消息
+      // if response does not contain user ID, show error message
       $.message({
         message: chrome.i18n.getMessage("invalidToken")
       });
     }
   }).fail(function () {
-    // 请求失败时显示错误消息
+    // show error message on request failure
     $.message({
       message: chrome.i18n.getMessage("invalidToken")
     });
@@ -292,7 +292,7 @@ $('#tags').click(function () {
   get_info(function (info) {
     if (info.apiUrl) {
       var parent = "memos/-";
-      // 如果不使用 user 过滤，会返回所有用户的标签
+      // without user filter, tags for all users would be returned
       var filter = "?filter=" + encodeURIComponent(`creator == 'users/${info.userid}'`);
       var tagUrl = info.apiUrl + 'api/v1/' + parent + '/tags' + filter;
       var tagDom = "";
@@ -323,7 +323,7 @@ $(document).on("click","#hideTag",function () {
 })
 
 $('#saveTag').click(function () {
-  // 保存数据
+  // save data
   chrome.storage.sync.set(
     {
       hidetag: $('#hideInput').val(),
@@ -496,7 +496,7 @@ get_info(function (info) {
               $.message({
                 message: chrome.i18n.getMessage("archiveSuccess")
               })
-  },error:function(err){//清空open_action（打开时候进行的操作）,同时清空open_content
+  },error:function(err){ // archive failed
               $.message({
                 message: chrome.i18n.getMessage("archiveFailed")
               })
@@ -600,7 +600,7 @@ function sendText() {
       $.message({
         message: chrome.i18n.getMessage("memoUploading")
       })
-      //$("#content_submit_text").attr('disabled','disabled');
+      // $("#content_submit_text").attr('disabled','disabled');
       let content = $("textarea[name=text]").val()
       var hideTag = info.hidetag
       var showTag = info.showtag
@@ -625,7 +625,7 @@ function sendText() {
         headers : {'Authorization':'Bearer ' + info.apiTokens},
         success: function(data){
           if(info.resourceIdList.length > 0 ){
-            //匹配图片
+            // attach uploaded resources
             $.ajax({
               url:info.apiUrl+'api/v1/'+data.name+'/resources',
               type:"PATCH",
@@ -648,11 +648,11 @@ function sendText() {
               $.message({
                 message: chrome.i18n.getMessage("memoSuccess")
               })
-              //$("#content_submit_text").removeAttr('disabled');
+              // $("#content_submit_text").removeAttr('disabled');
               $("textarea[name=text]").val('')
             }
           )
-      },error:function(err){//清空open_action（打开时候进行的操作）,同时清空open_content
+      },error:function(err){ // clear open_action and open_content on failure
               chrome.storage.sync.set(
                 { open_action: '', open_content: '',resourceIdList:'' },
                 function () {
