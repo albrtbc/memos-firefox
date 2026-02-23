@@ -2,9 +2,9 @@ dayjs.extend(window.dayjs_plugin_relativeTime)
 dayjs.locale('en')
 
 var visibilityIcons = {
-  PRIVATE: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
-  PROTECTED: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>',
-  PUBLIC: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3 2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2 2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/></svg>'
+  PRIVATE: '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#666" d="M832 464H768V352c0-141.184-114.816-256-256-256S256 210.816 256 352v112H192c-52.928 0-96 43.072-96 96v320c0 52.928 43.072 96 96 96h640c52.928 0 96-43.072 96-96V560c0-52.928-43.072-96-96-96zM320 352c0-105.856 86.144-192 192-192s192 86.144 192 192v112H320V352z m512 528c0 17.664-14.336 32-32 32H192c-17.664 0-32-14.336-32-32V560c0-17.664 14.336-32 32-32h640c17.664 0 32 14.336 32 32v320z"/></svg>',
+  PROTECTED: '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#666" d="M384 512a192 192 0 1 0 0-384 192 192 0 0 0 0 384z m0-320a128 128 0 1 1 0 256 128 128 0 0 1 0-256zM96 864v-32c0-123.712 100.288-224 224-224h128c123.712 0 224 100.288 224 224v32a32 32 0 0 1-64 0v-32c0-88.224-71.776-160-160-160H320c-88.224 0-160 71.776-160 160v32a32 32 0 0 1-64 0zM736 384a128 128 0 0 0 0-256 32 32 0 0 1 0-64 192 192 0 0 1 0 384 32 32 0 0 1 0-64zM928 864a32 32 0 0 1-64 0v-32c0-88.224-71.776-160-160-160a32 32 0 0 1 0-64c123.712 0 224 100.288 224 224v32z"/></svg>',
+  PUBLIC: '<svg class="icon" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#666" d="M512 64C264.576 64 64 264.576 64 512s200.576 448 448 448 448-200.576 448-448S759.424 64 512 64z m0 832c-34.816 0-68.608-5.12-100.8-14.144C432.832 845.12 462.08 768 462.08 768s12.8-51.2-12.8-64c-25.6-12.8-166.4-19.2-204.8-76.8-38.4-57.6 0-172.8 0-172.8l89.6-44.8s51.2-44.8 51.2-76.8c0-32-51.2-38.4-51.2-38.4l-32-64s76.8-12.8 64-76.8c-5.76-28.8-12.032-46.72-16.192-57.6C403.584 155.264 455.68 128 512 128c56.32 0 108.416 27.264 162.112 68.8-4.16 10.88-10.432 28.8-16.192 57.6-12.8 64 64 76.8 64 76.8l-32 64s-51.2 6.4-51.2 38.4c0 32 51.2 76.8 51.2 76.8l89.6 44.8s38.4 115.2 0 172.8c-38.4 57.6-179.2 64-204.8 76.8-25.6 12.8-12.8 64-12.8 64s29.248 77.12 50.88 113.856C580.608 891.136 546.816 896 512 896z"/></svg>'
 }
 
 function get_info(callback) {
@@ -339,12 +339,12 @@ $('#saveTag').click(function () {
   )
 })
 
-$('#lock').click(function () {
-  $("#lock-wrapper").toggleClass( "!hidden", 1000 );
+$('#lock-now').click(function () {
+  $("#lock-wrapper").toggleClass( "!hidden" );
 })
 
 $(document).on("click",".item-lock",function () {
-  $("#lock-wrapper").toggleClass( "!hidden", 1000 );
+  $("#lock-wrapper").addClass( "!hidden" );
   var type = $(this)[0].dataset.type;
   $("#lock-now").html(visibilityIcons[type] || visibilityIcons.PUBLIC)
   chrome.storage.sync.set(
