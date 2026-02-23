@@ -65,7 +65,24 @@ a{color: #555;}
     line-height: 1.5rem;
     overflow-wrap: anywhere;
     word-break: normal;}
-.btns-container{text-align:right;}
+.btns-container{text-align:right;display:flex;align-items:center;gap:.5rem;}
+.clear-btn{
+    display:inline-flex;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    background-color:rgb(220,38,38);
+    padding:0 .75rem;
+    font-size:1.1rem;
+    line-height:2rem;
+    color:#fff;
+    box-shadow:0 1px 3px 0 rgb(0 0 0/.1),0 1px 2px -1px rgb(0 0 0/.1);
+    user-select:none;
+    border-radius:.25rem;
+    border-style:none;
+    opacity:.6;
+}
+.clear-btn:hover{opacity:1;}
 .common-editor-inputer,input.inputer{
     font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;
     height: 100%;
@@ -251,9 +268,11 @@ input.inputer{border-bottom: 1px solid #ccc;width:75%;}
     position: relative;
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: .5rem;
 }
 #lock-now {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     cursor: pointer;
 }
@@ -261,6 +280,7 @@ input.inputer{border-bottom: 1px solid #ccc;width:75%;}
     width: 24px;
     height: 24px;
     opacity: .6;
+    cursor: pointer;
 }
 #lock-now:hover svg.icon {
     opacity: 1;
@@ -299,10 +319,4 @@ input.inputer{border-bottom: 1px solid #ccc;width:75%;}
 }
 .visibility-dropdown>.item-lock:hover {
     background-color: #f3f4f6;
-}
-    pointer-events: none;
-    --tw-bg-opacity: 1;
-    background-color: rgb(229 231 235 / var(--tw-bg-opacity));
-    --tw-text-opacity: 1;
-    color: rgb(156 163 175 / var(--tw-text-opacity))
 }

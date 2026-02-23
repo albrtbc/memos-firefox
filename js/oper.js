@@ -339,8 +339,18 @@ $('#saveTag').click(function () {
   )
 })
 
-$('#lock-now').click(function () {
+$('#lock-now').click(function (e) {
+  e.stopPropagation();
   $("#lock-wrapper").toggleClass( "!hidden" );
+})
+
+$(document).click(function () {
+  $("#lock-wrapper").addClass( "!hidden" );
+})
+
+$('#clear-btn').click(function () {
+  $("textarea[name=text]").val('');
+  chrome.storage.sync.set({memo_content: ''});
 })
 
 $(document).on("click",".item-lock",function () {
