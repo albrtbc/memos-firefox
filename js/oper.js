@@ -1,6 +1,12 @@
 dayjs.extend(window.dayjs_plugin_relativeTime)
 dayjs.locale('en')
 
+var visibilityIcons = {
+  PRIVATE: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
+  PROTECTED: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>',
+  PUBLIC: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"/><path d="M7 3.34V5a3 3 0 0 0 3 3 2 2 0 0 1 2 2c0 1.1.9 2 2 2a2 2 0 0 0 2-2c0-1.1.9-2 2-2h3.17"/><path d="M11 21.95V18a2 2 0 0 0-2-2 2 2 0 0 1-2-2v-1a2 2 0 0 0-2-2H2.05"/></svg>'
+}
+
 function get_info(callback) {
   chrome.storage.sync.get(
     {
@@ -48,15 +54,9 @@ get_info(function (info) {
     chrome.storage.sync.set(
       { memo_lock: 'PUBLIC' }
     )
-    $("#lock-now").text(chrome.i18n.getMessage("lockPublic"))
+    memoNow = 'PUBLIC'
   }
-  if (memoNow == "PUBLIC") {
-    $("#lock-now").text(chrome.i18n.getMessage("lockPublic"))
-  } else if (memoNow == "PRIVATE") {
-    $("#lock-now").text(chrome.i18n.getMessage("lockPrivate"))
-  } else if (memoNow == "PROTECTED") {
-    $("#lock-now").text(chrome.i18n.getMessage("lockProtected"))
-  }
+  $("#lock-now").html(visibilityIcons[memoNow] || visibilityIcons.PUBLIC)
   $('#apiUrl').val(info.apiUrl)
   $('#apiTokens').val(info.apiTokens)
   $('#hideInput').val(info.hidetag)
@@ -345,11 +345,11 @@ $('#lock').click(function () {
 
 $(document).on("click",".item-lock",function () {
   $("#lock-wrapper").toggleClass( "!hidden", 1000 );
-  $("#lock-now").text($(this).text())
-    _this = $(this)[0].dataset.type;
-    chrome.storage.sync.set(
-      {memo_lock: _this}
-    )
+  var type = $(this)[0].dataset.type;
+  $("#lock-now").html(visibilityIcons[type] || visibilityIcons.PUBLIC)
+  chrome.storage.sync.set(
+    {memo_lock: type}
+  )
 })
 
 $('#search').click(function () {

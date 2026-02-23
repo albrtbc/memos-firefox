@@ -5,9 +5,9 @@ document.getElementById("apiUrl").placeholder = chrome.i18n.getMessage("placeApi
 document.getElementById("apiTokens").placeholder = chrome.i18n.getMessage("placeApiTokens");
 document.getElementById("content").placeholder = chrome.i18n.getMessage("placeContent");
 
-document.getElementById("lockPrivate").textContent = chrome.i18n.getMessage("lockPrivate");
-document.getElementById("lockProtected").textContent = chrome.i18n.getMessage("lockProtected");
-document.getElementById("lockPublic").textContent = chrome.i18n.getMessage("lockPublic");
+document.querySelector("#lockPrivate span").textContent = chrome.i18n.getMessage("lockPrivate");
+document.querySelector("#lockProtected span").textContent = chrome.i18n.getMessage("lockProtected");
+document.querySelector("#lockPublic span").textContent = chrome.i18n.getMessage("lockPublic");
 
 document.getElementById("content_submit_text").textContent = chrome.i18n.getMessage("submitBtn");
 

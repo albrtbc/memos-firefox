@@ -274,14 +274,10 @@ input.inputer{border-bottom: 1px solid #ccc;width:75%;}
     padding-right: .25rem;
 }
 .selector-wrapper>.current-value-container>.value-text {
-    margin-right: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: .875rem
-}
-.selector-wrapper>.current-value-container>.value-text {
-    width: calc(100% - 20px)
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: .7
 }
 .selector-wrapper>.current-value-container>.lock-text {
     margin-right: .25rem;
@@ -340,15 +336,19 @@ input.inputer{border-bottom: 1px solid #ccc;width:75%;}
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+    gap: .5rem;
     white-space: nowrap;
     border-radius: .25rem;
     padding-left: .75rem;
     padding-right: .75rem;
     font-size: .875rem;
     line-height: 2rem
+}
+.selector-wrapper>.items-wrapper>.item-lock svg {
+    flex-shrink: 0;
+    opacity: .7
 }
 .selector-wrapper>.items-wrapper>.item-lock:hover {
     --tw-bg-opacity: 1;
