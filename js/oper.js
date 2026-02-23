@@ -176,11 +176,9 @@ function uploadImageNow(base64String, file) {
         }
       }
       const data = {
-        attachment: {
-          content: base64String,
-          filename: new_name,
-          type: file.type
-        }
+        content: base64String,
+        filename: new_name,
+        type: file.type
       };
       var upAjaxUrl = info.apiUrl + 'api/v1/attachments';
       $.ajax({
@@ -252,9 +250,9 @@ $('#saveKey').click(function () {
   };
 
   $.ajax(settings).done(function (response) {
-    if (response && response.name) {
+    if (response && response.user && response.user.name) {
       // if response contains user name, store apiUrl and apiTokens
-      var userId = response.name.split('/')[1];
+      var userId = response.user.name.split('/')[1];
       chrome.storage.sync.set(
         {
           apiUrl: apiUrl,
@@ -469,7 +467,7 @@ function randDom(randomData){
 $(document).on("click","#random-link",function () {
   var memoUid = $("#random-link").data('uid');
   get_info(function (info) {
-    chrome.tabs.create({url:info.apiUrl+"m/"+memoUid})
+    chrome.tabs.create({url:info.apiUrl+"memos/"+memoUid})
   })
 })
 
@@ -481,11 +479,8 @@ get_info(function (info) {
     url:deleteUrl,
     type:"PATCH",
     data:JSON.stringify({
-      'memo': {
-        'name': memosName,
-        'state': "ARCHIVED"
-      },
-      'updateMask': 'state'
+      'name': memosName,
+      'state': "ARCHIVED"
     }),
     contentType:"application/json;",
     dataType:"json",
@@ -616,10 +611,8 @@ function sendText() {
         url:info.apiUrl+'api/v1/memos',
         type:"POST",
         data:JSON.stringify({
-          'memo': {
-            'content': content,
-            'visibility': sendvisi
-          }
+          'content': content,
+          'visibility': sendvisi
         }),
         contentType:"application/json;",
         dataType:"json",
