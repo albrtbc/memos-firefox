@@ -1,0 +1,58 @@
+name: Build Firefox Extension
+
+on:
+  workflow_call:
+    inputs:
+      tag_name:
+        type: string
+        required: true
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build .xpi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Determine version
+        id: version
+        run: |
+          TAG="${{ inputs.tag_name || github.ref_name }}"
+          VERSION="${TAG#v}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag_name || github.ref }}
+
+      - name: Build .xpi
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          FILENAME="memos-firefox_${VERSION}.xpi"
+          zip -r "${FILENAME}" . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x ".release-please-manifest.json" \
+            -x "release-please-config.json" \
+            -x "CHANGELOG.md" \
+            -x ".gitignore" \
+            -x "*.xpi" \
+            -x "*.zip"
+          echo "FILENAME=${FILENAME}" >> $GITHUB_ENV
+          echo "Built: ${FILENAME} ($(du -h "${FILENAME}" | cut -f1))"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.FILENAME }}
+          path: ${{ env.FILENAME }}
+          retention-days: 60
+
+      - name: Upload to GitHub Release
+        if: inputs.tag_name != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          files: ${{ env.FILENAME }}
