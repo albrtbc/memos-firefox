@@ -3,7 +3,7 @@ name: Release Please
 on:
   push:
     branches:
-      - main
+      - firefox
 
 permissions:
   contents: write
