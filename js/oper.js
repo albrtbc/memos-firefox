@@ -517,8 +517,10 @@ $('#newtodo').click(function () {
 
 $('#getlink').click(function () {
   chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    var linkHtml = " ["+tab.title+"]("+tab.url+") "
     if(tab.url){
+      var url = tab.url
+      var embedPattern = /^https?:\/\/(www\.)?(youtube\.com|youtu\.be|twitter\.com|x\.com|reddit\.com)/i
+      var linkHtml = embedPattern.test(url) ? " " + url + " " : " ["+tab.title+"]("+url+") "
       add(linkHtml);
     }else{
       $.message({
