@@ -355,7 +355,7 @@ $(document).on("click",".item-lock",function () {
 $('#search').click(function () {
   get_info(function (info) {
   const pattern = $("textarea[name=text]").val()
-  var filter = "?filter=" + encodeURIComponent(`creator == 'users/${info.userid}' && visibilities == ['PUBLIC', 'PROTECTED'] && content_search == ['${pattern}']`);
+  var filter = "?filter=" + encodeURIComponent(`creator_id == ${info.userid} && content.contains("${pattern}")`);
   if (info.status) {
     $("#randomlist").html('').hide()
     var searchDom = ""
@@ -417,7 +417,7 @@ $('#search').click(function () {
 
 $('#random').click(function () {
   get_info(function (info) {
-    var filter = "?filter=" + encodeURIComponent(`creator == 'users/${info.userid}'`);
+    var filter = "?filter=" + encodeURIComponent(`creator_id == ${info.userid}`);
     if (info.status) {
       $("#randomlist").html('').hide()
       var randomUrl = info.apiUrl + 'api/v1/memos' + filter;
