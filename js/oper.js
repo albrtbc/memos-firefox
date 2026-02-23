@@ -350,7 +350,7 @@ $(document).click(function () {
 
 $('#clear-btn').click(function () {
   $("textarea[name=text]").val('');
-  chrome.storage.sync.set({memo_content: ''});
+  chrome.storage.sync.set({open_content: ''});
 })
 
 $(document).on("click",".item-lock",function () {
