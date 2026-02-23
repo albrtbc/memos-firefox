@@ -73,11 +73,17 @@ get_info(function (info) {
 
 $("textarea[name=text]").focus()
 
-// on blur, save unsent content locally
-$("textarea[name=text]").blur(function () {
+// auto-save all fields on input so nothing is lost when popup closes
+$("textarea[name=text]").on('input', function () {
   chrome.storage.sync.set(
     { open_action: 'save_text', open_content: $("textarea[name=text]").val() }
   )
+})
+$('#apiUrl').on('input', function () {
+  chrome.storage.sync.set({ apiUrl: $(this).val() })
+})
+$('#apiTokens').on('input', function () {
+  chrome.storage.sync.set({ apiTokens: $(this).val() })
 })
 
 $("textarea[name=text]").on('keydown', function (ev) {
