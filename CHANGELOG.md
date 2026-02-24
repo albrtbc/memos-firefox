@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.9.0](https://github.com/albrtbc/memos-firefox/compare/v4.8.1...v4.9.0) (2026-02-24)
+
+
+### Features
+
+* add Chrome extension build support ([298b4f0](https://github.com/albrtbc/memos-firefox/commit/298b4f0c5a151032123ce0243482de24a7046b32))
+
+
+### Bug Fixes
+
+* avoid secrets context in workflow if expressions ([e821b6d](https://github.com/albrtbc/memos-firefox/commit/e821b6d2faf398fac32ecba84e0877eed78fa011))
+
 ## [4.8.1](https://github.com/albrtbc/memos-firefox/compare/v4.8.0...v4.8.1) (2026-02-23)
 
 
