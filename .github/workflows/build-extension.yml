@@ -64,14 +64,19 @@ jobs:
           files: ${{ env.FILENAME }}
 
       - name: Setup Node.js
-        if: inputs.tag_name != '' && secrets.AMO_JWT_ISSUER != ''
+        if: inputs.tag_name != ''
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
       - name: Publish to AMO
-        if: inputs.tag_name != '' && secrets.AMO_JWT_ISSUER != ''
-        run: npx web-ext sign --source-dir . --artifacts-dir ./artifacts --channel listed --api-key "$AMO_JWT_ISSUER" --api-secret "$AMO_JWT_SECRET"
+        if: inputs.tag_name != ''
+        run: |
+          if [ -z "$AMO_JWT_ISSUER" ]; then
+            echo "AMO secrets not configured, skipping publish"
+            exit 0
+          fi
+          npx web-ext sign --source-dir . --artifacts-dir ./artifacts --channel listed --api-key "$AMO_JWT_ISSUER" --api-secret "$AMO_JWT_SECRET"
         env:
           AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
           AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
