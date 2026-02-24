@@ -1,61 +1,72 @@
-## About
+# Memos Browser Extension (Custom Fork)
 
-A Firefox extension for Memos, ported from the corresponding [Chrome extension](https://chrome.google.com/webstore/detail/memos-bber/cbhjebjfccgchgbmfbobjmebjjckgofe/). Original author: [lmm214](https://immmmm.com)
+A custom fork of [memos-bber](https://github.com/lmm214/memos-bber) — a browser extension for quickly capturing notes to your self-hosted [Memos](https://github.com/albrtbc/memos) instance. Supports both Firefox and Chrome.
 
-> Chrome extension description: A browser extension for publishing to [Memos](https://usememos.com/). Based on iSpeak-bber, original author: [DreamyTZK](https://www.antmoe.com/).
+[![Upstream](https://img.shields.io/badge/upstream-lmm214%2Fmemos--bber-blue?style=flat-square)](https://github.com/lmm214/memos-bber)
 
-## Changelog
+## Changes from upstream
 
-2024.07.30 Ported to Firefox
+### Memos v0.26+ API Compatibility
 
-2024.07.21 Breaking update, now compatible with v0.22.3
+The upstream extension only supported up to Memos v0.22.3. This fork brings full compatibility with the v0.26+ API, including migration to CEL filter syntax for search and random memo features.
 
-2024.06.15 Thanks to a contributor for [PR#44](https://github.com/lmm214/memos-bber/pull/44)
+### UI/UX Improvements
 
-2024.05.20 Updated to match v0.22
+- **Icon-based visibility selector** — Replaced text labels with Lucide icons matching the Memos web UI, restyled as a toolbar dropdown
+- **Clear button** — Added a clear button to reset the input field, with correct storage cleanup
+- **Close-on-outside-click** — Dropdowns close when clicking outside
 
-2023.09.19 Breaking update to match Memos v0.15 `Access tokens` mode.
+### Smart URL Handling
 
-<img width="483" alt="123" src="https://github.com/lmm214/memos-bber/assets/1472390/4ce2edc2-ce64-44d5-b4ef-d2e79b9d6a1a">
+- Inserts plain URLs (instead of markdown links) for YouTube, Twitter/X, and Reddit links, since Memos renders these with rich embeds natively
 
-2023.07.16 Added support for Memos v0.14.0 `api/v1`, while maintaining backward compatibility with previous API.
+### State Persistence
 
-2023.04.29 Various improvements to the context menu, thanks to @EZForever's PR [#17](https://github.com/lmm214/memos-bber/pull/17)
+- Auto-saves all input fields to preserve state when the popup is closed and reopened
 
-2023.04.09 Updated to match v0.12.0: attachment links changed from filename to publicId.
+### Localization
 
-2023.03.25 Context menu text sending changed to "append mode" (does not refresh already-opened pages); added multi-language support (en, zh-cn).
+- Fully translated all remaining Chinese UI text to English
 
-2023.03.19 Image upload renamed with precise seconds; focus input box when opening the extension (combined with context menu text sending, keyboard shortcut to open extension, and Ctrl+Enter to save).
+### Chrome Support
 
-2023.03.10 Fixed fetching the latest Memo after publishing.
+- The extension now builds for both Firefox and Chrome from the same codebase
 
-2023.03.09 Added right-click "send text to Memos" input box.
+### CI/CD
 
-![iShot_2023-03-05](https://user-images.githubusercontent.com/1472390/222957393-fc2e933e-b18f-4e69-a8c0-4609f84a0a90.png)
+- Release Please automation for versioning and releases
+- AMO (addons.mozilla.org) auto-publish via GitHub Actions
 
-2023.03.05 Added tag-based visibility control ("private" or "public"); added timestamp to uploaded image filenames.
+## Installation
 
-2023.02.26 Changed Memos visibility button style. Added Ctrl/Meta + Enter to save. Click title to navigate to main site.
+This extension is not published on any store. Download the latest release from the [Releases](https://github.com/albrtbc/memos-firefox/releases/latest) page.
 
-2023.02.25 Fixed random button not working on v0.11.0. (API `amount` parameter deprecated, switched to `stats` to get total count)
+### Firefox
 
-![iShot_2023-02-06_19 16 28](https://user-images.githubusercontent.com/1472390/216958098-1f4fab2a-e77c-41bd-8ba3-5786f42744d7.png)
+1. Download the `.xpi` file from Releases
+2. Open `about:addons` in Firefox
+3. Click the gear icon and select "Install Add-on From File..."
+4. Select the downloaded `.xpi` file
 
-2023.02.07 Added display of the latest Memo after publishing; added archive button for individual memos.
+### Chrome
 
-2023.02.06 Added search button; added image lightbox.
+1. Download the Chrome `.zip` from Releases and extract it
+2. Open `chrome://extensions/`
+3. Enable "Developer mode"
+4. Click "Load unpacked" and select the extracted folder
 
-![iShot_2023-02-04_20 42 40](https://user-images.githubusercontent.com/1472390/216768533-4a93124a-666e-4617-a60b-29c826dc1584.png)
+## Compatibility
 
-2023.02.05 Random Memos now supports filtering by tag (easter egg: open the tag list, have exactly 1 tag in the input box, then click the random button).
+This extension is designed to work with the [albrtbc/memos](https://github.com/albrtbc/memos) backend (v0.26+). It may not be compatible with the upstream usememos/memos or other forks.
 
-2023.02.04 Added random Memos button to revisit past memories.
+## Ecosystem
 
-2022.11.15 Added file/image insert button; attempted to fix first-install requiring a click on the lock icon.
+| App | Description | Repository |
+|-----|-------------|------------|
+| **Memos** | Server — API + web frontend | [albrtbc/memos](https://github.com/albrtbc/memos) |
+| **Memos Firefox/Chrome** (this repo) | Browser extension | [albrtbc/memos-firefox](https://github.com/albrtbc/memos-firefox) |
+| **GS Memos** | Android app | [albrtbc/MoeMemosAndroid](https://github.com/albrtbc/MoeMemosAndroid) |
 
-2022.11.13 Added insert todo button.
+## License
 
-2022.11.8 Added drag-and-drop attachment upload (one at a time).
-
-2022.10.24 Added visibility setting for posts.
+This project is open-source software licensed under the [MIT License](LICENSE).
