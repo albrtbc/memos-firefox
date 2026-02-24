@@ -39,7 +39,7 @@ The upstream extension only supported up to Memos v0.22.3. This fork brings full
 
 ## Installation
 
-This extension is not published on any store. Download the latest release from the [Releases](https://github.com/albrtbc/memos-firefox/releases/latest) page.
+This extension is not published on any store. Download the latest release from the [Releases](https://github.com/albrtbc/memos-browser-extension/releases/latest) page.
 
 ### Firefox
 
@@ -64,8 +64,8 @@ This extension is designed to work with the [albrtbc/memos](https://github.com/a
 | App | Description | Repository |
 |-----|-------------|------------|
 | **Memos** | Server — API + web frontend | [albrtbc/memos](https://github.com/albrtbc/memos) |
-| **Memos Firefox/Chrome** (this repo) | Browser extension | [albrtbc/memos-firefox](https://github.com/albrtbc/memos-firefox) |
-| **GS Memos** | Android app | [albrtbc/MoeMemosAndroid](https://github.com/albrtbc/MoeMemosAndroid) |
+| **Memos Firefox/Chrome** (this repo) | Browser extension | [albrtbc/memos-browser-extension](https://github.com/albrtbc/memos-browser-extension) |
+| **GS Memos** | Android app | [albrtbc/memos-android](https://github.com/albrtbc/memos-android) |
 
 ## License
 
