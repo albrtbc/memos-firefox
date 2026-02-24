@@ -1,0 +1,42 @@
+{
+   "manifest_version": 3,
+   "name": "__MSG_extName__",
+   "version": "4.7.2",
+   "default_locale": "en",
+   "description": "__MSG_extDescription__",
+   "homepage_url": "https://github.com/albrtbc/memos-firefox",
+   "icons": {
+      "128": "assets/logo.png",
+      "16": "assets/logo.png",
+      "48": "assets/logo.png"
+   },
+   "background": {
+      "service_worker": "js/background.js"
+   },
+   "permissions": [
+      "tabs",
+      "storage",
+      "activeTab",
+      "contextMenus"
+   ],
+   "host_permissions": [
+      "http://*/*",
+      "https://*/*"
+   ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+   },
+   "action": {
+      "default_icon": "assets/logo_24x24.png",
+      "default_popup": "popup.html",
+      "default_title": "__MSG_actionTitle__"
+   },
+   "commands": {
+      "_execute_action": {
+         "suggested_key": {
+            "default": "Ctrl+Shift+F",
+            "mac": "MacCtrl+Shift+F"
+         }
+      }
+   }
+}

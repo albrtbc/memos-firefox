@@ -1,4 +1,4 @@
-name: Build Firefox Extension
+name: Build Extensions
 
 on:
   workflow_call:
@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-firefox:
     name: Build .xpi
     runs-on: ubuntu-latest
     permissions:
@@ -43,6 +43,7 @@ jobs:
             -x "release-please-config.json" \
             -x "CHANGELOG.md" \
             -x ".gitignore" \
+            -x "manifest.chrome.json" \
             -x "*.xpi" \
             -x "*.zip"
           echo "FILENAME=${FILENAME}" >> $GITHUB_ENV
@@ -74,3 +75,55 @@ jobs:
         env:
           AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
           AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+
+  build-chrome:
+    name: Build .zip (Chrome)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Determine version
+        id: version
+        run: |
+          TAG="${{ inputs.tag_name || github.ref_name }}"
+          VERSION="${TAG#v}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag_name || github.ref }}
+
+      - name: Prepare Chrome manifest
+        run: cp manifest.chrome.json manifest.json
+
+      - name: Build .zip
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          FILENAME="memos-chrome_${VERSION}.zip"
+          zip -r "${FILENAME}" . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x ".release-please-manifest.json" \
+            -x "release-please-config.json" \
+            -x "CHANGELOG.md" \
+            -x ".gitignore" \
+            -x "manifest.chrome.json" \
+            -x "*.xpi" \
+            -x "*.zip"
+          echo "FILENAME=${FILENAME}" >> $GITHUB_ENV
+          echo "Built: ${FILENAME} ($(du -h "${FILENAME}" | cut -f1))"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.FILENAME }}
+          path: ${{ env.FILENAME }}
+          retention-days: 60
+
+      - name: Upload to GitHub Release
+        if: inputs.tag_name != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag_name }}
+          files: ${{ env.FILENAME }}
